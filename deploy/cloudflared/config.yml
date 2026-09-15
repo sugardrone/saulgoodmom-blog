@@ -1,0 +1,10 @@
+tunnel: 23ae2cbd-7daf-43cf-82af-53bbf70a9f23
+credentials-file: /etc/cloudflared/creds.json
+
+ingress:
+  - hostname: suncar.live
+    service: http://blog:80
+  - hostname: www.suncar.live
+    service: http://blog:80
+  # 兜底：未匹配的 hostname 返回 404
+  - service: http_status:404

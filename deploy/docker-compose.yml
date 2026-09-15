@@ -21,3 +21,13 @@ services:
     restart: unless-stopped
     env_file:
       - /srv/blog-nginx/oauth-gateway.env
+
+  cloudflared:
+    image: m.daocloud.io/docker.io/cloudflare/cloudflared:latest
+    container_name: blog-cloudflared
+    restart: unless-stopped
+    command: tunnel --no-autoupdate --protocol http2 --config /etc/cloudflared/config.yml run
+    volumes:
+      - /srv/blog-nginx/cloudflared:/etc/cloudflared:ro
+    depends_on:
+      - blog
