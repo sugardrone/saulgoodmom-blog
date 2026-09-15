@@ -1,9 +1,10 @@
 // Cloudflare Worker: 反向代理到阿里云源站
-// 通过 sslip.io 连接源站（避免 Worker 直连裸 IP 的 1003），
-// 但把回源 Host 显式设为裸 IP（阿里云未备案 DPI 对裸 IP 放行）。
+// 通过 sslip.io 连接源站 8880 端口（阿里云 ICP DPI 只拦 80/443，
+// 且 8880 是 Cloudflare Workers 出站 fetch 允许的端口），
+// 回源 Host 显式设为裸 IP。
 // 绑定路由: suncar.live/*  和  www.suncar.live/*
 
-const ORIGIN = 'http://121.41.26.131.sslip.io';
+const ORIGIN = 'http://121.41.26.131.sslip.io:8081';
 
 export default {
   async fetch(request) {

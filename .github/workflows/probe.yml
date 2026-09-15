@@ -1,0 +1,26 @@
+name: Diagnose origin reachability
+
+on:
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe origin ports
+        run: |
+          echo "== port 80, Host=suncar.live =="
+          curl -s -o /tmp/p1.html -w "code=%{http_code} time=%{time_total}\n" --max-time 20 -H "Host: suncar.live" http://121.41.26.131/ || true
+          grep -o "<title>[^<]*</title>" /tmp/p1.html || true
+          echo "== port 8081, Host=121.41.26.131 =="
+          curl -s -o /tmp/p2.html -w "code=%{http_code} time=%{time_total}\n" --max-time 20 http://121.41.26.131:8081/ || true
+          grep -o "<title>[^<]*</title>" /tmp/p2.html || true
+          echo "== port 8081, Host=suncar.live =="
+          curl -s -o /tmp/p3.html -w "code=%{http_code} time=%{time_total}\n" --max-time 20 -H "Host: suncar.live" http://121.41.26.131:8081/ || true
+          grep -o "<title>[^<]*</title>" /tmp/p3.html || true
+          echo "== sslip 8880 =="
+          curl -s -o /tmp/p4.html -w "code=%{http_code} time=%{time_total}\n" --max-time 20 http://121.41.26.131.sslip.io:8880/ || true
+          grep -o "<title>[^<]*</title>" /tmp/p4.html || true
+          echo "== via CF domain =="
+          curl -s -o /tmp/p5.html -w "code=%{http_code} time=%{time_total}\n" --max-time 20 https://suncar.live/ || true
+          grep -o "<title>[^<]*</title>" /tmp/p5.html || true
