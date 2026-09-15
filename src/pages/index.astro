@@ -1,0 +1,79 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+import GitHubProjects from '../components/GitHubProjects.astro';
+import { getRepos } from '../lib/github';
+import { SITE } from '../consts';
+
+const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+const latest = posts.slice(0, 4);
+const repos = await getRepos(4);
+---
+
+<BaseLayout title={SITE.title} description={SITE.description}>
+  <section class="container-wide pt-20 pb-16 sm:pt-28">
+    <p class="reveal font-mono text-xs uppercase tracking-[0.24em] text-accent">
+      {SITE.tagline}
+    </p>
+    <h1 class="reveal reveal-delay-1 mt-5 max-w-3xl font-serif text-4xl leading-[1.15] sm:text-6xl">
+      你好，我是 {SITE.title}。<br />
+      在这里记录 <span class="text-accent">代码</span> 与 <span class="text-accent">思考</span>。
+    </h1>
+    <p class="reveal reveal-delay-2 mt-6 max-w-xl leading-relaxed text-muted">
+      {SITE.description}
+    </p>
+    <div class="reveal reveal-delay-3 mt-9 flex flex-wrap gap-3">
+      <a
+        href="/blog"
+        class="rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-canvas transition-transform duration-300 hover:-translate-y-0.5"
+      >
+        阅读文章
+      </a>
+      <a
+        href={SITE.githubUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="rounded-full border border-line px-5 py-2.5 text-sm transition-colors duration-300 hover:border-accent hover:text-accent"
+      >
+        GitHub
+      </a>
+    </div>
+  </section>
+
+  <section class="container-wide pb-20">
+    <div class="mb-8 flex items-baseline justify-between">
+      <h2 class="font-serif text-2xl">最新文章</h2>
+      <a href="/blog" class="link-underline text-sm text-muted hover:text-ink">查看全部 →</a>
+    </div>
+
+    {
+      latest.length === 0 ? (
+        <p class="text-muted">还没有文章，去 <code>src/content/posts/</code> 新建一篇吧。</p>
+      ) : (
+        <div class="grid gap-4 sm:grid-cols-2">
+          {latest.map((post) => (
+            <PostCard post={post} />
+          ))}
+        </div>
+      )
+    }
+  </section>
+
+  <section class="container-wide pb-24">
+    <div class="mb-8 flex items-baseline justify-between">
+      <h2 class="font-serif text-2xl">开源项目</h2>
+      <a
+        href={SITE.githubUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="link-underline text-sm text-muted hover:text-ink"
+      >
+        @{SITE.github} →
+      </a>
+    </div>
+    <GitHubProjects repos={repos} />
+  </section>
+</BaseLayout>

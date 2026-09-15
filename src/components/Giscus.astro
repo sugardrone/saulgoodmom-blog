@@ -1,0 +1,54 @@
+---
+import { GISCUS } from '../consts';
+
+const enabled = Boolean(GISCUS.repoId && GISCUS.categoryId);
+---
+
+{
+  enabled ? (
+    <section class="mt-16 border-t border-line pt-10">
+      <h2 class="mb-6 font-serif text-xl">评论</h2>
+      <div
+        class="giscus"
+        data-repo={GISCUS.repo}
+        data-repo-id={GISCUS.repoId}
+        data-category={GISCUS.category}
+        data-category-id={GISCUS.categoryId}
+        data-mapping={GISCUS.mapping}
+        data-strict="0"
+        data-reactions-enabled={GISCUS.reactionsEnabled}
+        data-emit-metadata="0"
+        data-input-position={GISCUS.inputPosition}
+        data-theme="preferred_color_scheme"
+        data-lang={GISCUS.lang}
+        data-loading="lazy"
+      />
+      <script
+        src="https://giscus.app/client.js"
+        data-repo={GISCUS.repo}
+        data-repo-id={GISCUS.repoId}
+        data-category={GISCUS.category}
+        data-category-id={GISCUS.categoryId}
+        data-mapping={GISCUS.mapping}
+        data-strict="0"
+        data-reactions-enabled={GISCUS.reactionsEnabled}
+        data-emit-metadata="0"
+        data-input-position={GISCUS.inputPosition}
+        data-theme="preferred_color_scheme"
+        data-lang={GISCUS.lang}
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async
+        is:inline
+      />
+    </section>
+  ) : (
+    <section class="mt-16 border-t border-line pt-10">
+      <p class="text-sm text-muted">
+        评论功能待启用：在 <code class="rounded bg-ink/5 px-1.5 py-0.5">src/consts.ts</code>
+        填入 giscus 的 <code class="rounded bg-ink/5 px-1.5 py-0.5">repoId</code> 与
+        <code class="rounded bg-ink/5 px-1.5 py-0.5">categoryId</code>。
+      </p>
+    </section>
+  )
+}

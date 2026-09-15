@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0b0b0d"/>
+  <circle cx="1040" cy="120" r="220" fill="#e08b5a" opacity="0.12"/>
+  <text x="90" y="330" font-family="Georgia, serif" font-size="92" fill="#ececec">SaulGoodMom</text>
+  <text x="94" y="392" font-family="Georgia, serif" font-size="34" fill="#9a958e">在代码与文字之间，记录思考。</text>
+  <rect x="92" y="450" width="120" height="4" fill="#e08b5a"/>
+</svg>

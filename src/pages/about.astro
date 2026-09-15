@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../consts';
+---
+
+<BaseLayout title="关于" description={`关于 ${SITE.title}`}>
+  <section class="container-prose py-16 sm:py-20">
+    <header class="reveal mb-10">
+      <p class="font-mono text-xs uppercase tracking-[0.24em] text-accent">About</p>
+      <h1 class="mt-4 font-serif text-4xl">关于</h1>
+    </header>
+
+    <div class="prose-article reveal reveal-delay-1">
+      <p>
+        你好，我是 {SITE.title}。这是一块属于自己的自留地，用来沉淀工程实践、
+        开源观察和一些不太成熟的想法。
+      </p>
+      <p>
+        主要关注：Web 工程化、开源工具、系统设计，以及一切能提升效率的东西。
+      </p>
+      <h2>联系我</h2>
+      <ul>
+        <li>
+          GitHub：<a href={SITE.githubUrl} target="_blank" rel="noopener noreferrer">@{SITE.github}</a>
+        </li>
+        <li>Email：<a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+      </ul>
+      <hr />
+      <p class="text-muted">本站使用 Astro 构建，部署于阿里云。</p>
+    </div>
+  </section>
+</BaseLayout>

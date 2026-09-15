@@ -1,0 +1,50 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import Giscus from '../components/Giscus.astro';
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+}
+
+const { post } = Astro.props;
+const { title, description, pubDate, updatedDate, tags } = post.data;
+const fmt = (d: Date) =>
+  d.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="container-prose py-16 sm:py-20">
+    <header class="reveal">
+      <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted">
+        <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>
+        {updatedDate && <span>· 更新于 {fmt(updatedDate)}</span>}
+      </div>
+
+      <h1 class="mt-4 font-serif text-3xl leading-tight sm:text-4xl">{title}</h1>
+      <p class="mt-4 text-lg leading-relaxed text-muted">{description}</p>
+
+      {
+        tags.length > 0 && (
+          <div class="mt-6 flex flex-wrap gap-2">
+            {tags.map((tag) => (
+              <span class="rounded-full border border-line px-3 py-1 text-xs text-muted">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        )
+      }
+    </header>
+
+    <div class="prose-article reveal reveal-delay-1 mt-12">
+      <slot />
+    </div>
+
+    <div class="mt-12">
+      <a href="/blog" class="link-underline text-sm text-muted hover:text-ink">← 返回文章列表</a>
+    </div>
+
+    <Giscus />
+  </article>
+</BaseLayout>
