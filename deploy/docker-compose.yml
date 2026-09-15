@@ -11,4 +11,12 @@ services:
       - /srv/blog:/usr/share/nginx/html:ro
       - /srv/blog-nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - /srv/acme:/usr/share/nginx/acme:ro
+
+  oauth-gateway:
+    build:
+      context: ./oauth-gateway
+    container_name: blog-oauth-gateway
+    restart: unless-stopped
+    env_file:
+      - /srv/blog-nginx/oauth-gateway.env
       - /srv/certbot/conf:/etc/letsencrypt:ro

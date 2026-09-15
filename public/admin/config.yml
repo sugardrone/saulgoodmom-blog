@@ -1,0 +1,46 @@
+backend:
+  name: github
+  repo: sugardrone/saulgoodmom-blog
+  branch: main
+  base_url: https://suncar.live/oauth
+  auth_endpoint: /auth
+
+site_url: https://suncar.live
+display_url: https://suncar.live
+locale: zh_Hans
+
+media_folder: public/uploads
+public_folder: /uploads
+
+collections:
+  - name: posts
+    label: 文章
+    label_singular: 文章
+    folder: src/content/posts
+    extension: mdx
+    format: frontmatter
+    create: true
+    slug: "{{slug}}"
+    editor:
+      preview: true
+    fields:
+      - { label: "标题", name: "title", widget: "string" }
+      - { label: "摘要", name: "description", widget: "text" }
+      - label: "发布日期"
+        name: "pubDate"
+        widget: "datetime"
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        format: "YYYY-MM-DD"
+        default: "{{now}}"
+      - label: "更新日期"
+        name: "updatedDate"
+        widget: "datetime"
+        required: false
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        format: "YYYY-MM-DD"
+      - { label: "标签", name: "tags", widget: "list", required: false, default: [] }
+      - { label: "封面图", name: "cover", widget: "image", required: false }
+      - { label: "草稿（勾选后不会发布到线上）", name: "draft", widget: "boolean", default: false, required: false }
+      - { label: "正文", name: "body", widget: "markdown" }
