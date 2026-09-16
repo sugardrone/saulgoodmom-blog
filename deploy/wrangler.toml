@@ -2,9 +2,11 @@ name = "blog-proxy"
 main = "worker.js"
 compatibility_date = "2026-09-01"
 
-# Worker 路由：接管 suncar.live 全部流量，反代到阿里云源站
-# 前提：DNS 里 suncar.live / www.suncar.live 有指向源站的 A 记录且开启橙云代理
-routes = [
-  { pattern = "suncar.live/*", zone_name = "suncar.live" },
-  { pattern = "www.suncar.live/*", zone_name = "suncar.live" },
-]
+# Cloudflare Tunnel（cloudflared）已替代 Worker 回源，Worker 仅保留代码作参考。
+# 注意：不要再绑定以下路由 —— 域名未备案，阿里云 DPI 会拦截 Worker 的
+# 回源请求，绑定后域名反而完全不可用；且会挡住隧道方案。
+# routes = [
+#   { pattern = "suncar.live/*", zone_name = "suncar.live" },
+#   { pattern = "www.suncar.live/*", zone_name = "suncar.live" },
+# ]
+routes = []
